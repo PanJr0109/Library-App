@@ -3,8 +3,10 @@ package com.panjr.springbootlibrary.service;
 
 import com.panjr.springbootlibrary.dao.BookRepository;
 import com.panjr.springbootlibrary.dao.CheckoutRespository;
+import com.panjr.springbootlibrary.dao.HistoryRespository;
 import com.panjr.springbootlibrary.entity.Book;
 import com.panjr.springbootlibrary.entity.Checkout;
+import com.panjr.springbootlibrary.entity.History;
 import com.panjr.springbootlibrary.responsemodels.ShelfCurrentLoansResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -24,9 +26,12 @@ public class BookService {
 
     private CheckoutRespository checkoutRespository;
 
-    public  BookService (BookRepository bookRepository, CheckoutRespository checkoutRespository){
+    private HistoryRespository historyRespository;
+
+    public  BookService (BookRepository bookRepository, CheckoutRespository checkoutRespository,HistoryRespository historyRespository){
         this.bookRepository = bookRepository;
         this.checkoutRespository =checkoutRespository;
+        this.historyRespository = historyRespository;
     }
 
     public Book checkoutBook(String userEmail, Long bookId) throws Exception{
@@ -115,17 +120,17 @@ public class BookService {
         bookRepository.save(book.get());
         checkoutRespository.deleteById(validateCheckout.getId());
 
-//        History history = new History(
-//                userEmail,
-//                validateCheckout.getCheckoutDate(),
-//                LocalDate.now().toString(),
-//                book.get().getTitle(),
-//                book.get().getAuthor(),
-//                book.get().getDescription(),
-//                book.get().getImg()
-//        );
-//
-//        historyRepository.save(history);
+        History history = new History(
+                userEmail,
+                validateCheckout.getCheckoutDate(),
+                LocalDate.now().toString(),
+                book.get().getTitle(),
+                book.get().getAuthor(),
+                book.get().getDescription(),
+                book.get().getImg()
+        );
+
+        historyRespository.save(history);
     }
 
     public void renewLoan(String userEmail, Long bookId) throws Exception {
