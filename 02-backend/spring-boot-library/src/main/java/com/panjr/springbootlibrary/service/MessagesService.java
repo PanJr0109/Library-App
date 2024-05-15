@@ -3,6 +3,7 @@ package com.panjr.springbootlibrary.service;
 import com.panjr.springbootlibrary.dao.MessageRepository;
 import com.panjr.springbootlibrary.entity.Message;
 //import com.panjr.springbootlibrary.requestmodels.AdminQuestionRequest;
+import com.panjr.springbootlibrary.requestmodels.AdminQuestionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,16 +27,15 @@ public class MessagesService {
         messageRepository.save(message);
     }
 
-//    public void putMessage(AdminQuestionRequest adminQuestionRequest, String userEmail) throws Exception {
-//        Optional<Message> message = messageRepository.findById(adminQuestionRequest.getId());
-//        if (!message.isPresent()) {
-//            throw new Exception("Message not found");
-//        }
-//
-//        message.get().setAdminEmail(userEmail);
-//        message.get().setResponse(adminQuestionRequest.getResponse());
-//        message.get().setClosed(true);
-//        messageRepository.save(message.get());
-//    }
+    public void putMessage(AdminQuestionRequest adminQuestionRequest, String userEmail) throws Exception {
+        Optional<Message> message = messageRepository.findById(adminQuestionRequest.getId());
+        if (!message.isPresent()) {
+            throw new Exception("Message not found");
+        }
+        message.get().setAdminEmail(userEmail);
+        message.get().setResponse(adminQuestionRequest.getResponse());
+        message.get().setClosed(true);
+        messageRepository.save(message.get());
+    }
 
 }

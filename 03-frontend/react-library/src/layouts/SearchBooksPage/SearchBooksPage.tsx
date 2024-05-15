@@ -16,11 +16,9 @@ export const SearchBooksPage = () => {
   const [searchUrl, setSearchUrl] = useState("");
   const [categorySelection,setCategorySelection] = useState("Book Category");
 
-
-
   useEffect(() => {
     const fetchBooks = async () => {
-      const baseUrl: string = "http://localhost:8080/api/books";
+      const baseUrl: string = `${process.env.REACT_APP_API}/books`;
 
       let url: string = "";
 

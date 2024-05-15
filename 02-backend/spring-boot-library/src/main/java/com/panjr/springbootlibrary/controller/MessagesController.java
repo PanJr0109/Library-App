@@ -2,12 +2,13 @@ package com.panjr.springbootlibrary.controller;
 
 import com.panjr.springbootlibrary.entity.Message;
 //import com.panjr.springbootlibrary.requestmodels.AdminQuestionRequest;
+import com.panjr.springbootlibrary.requestmodels.AdminQuestionRequest;
 import com.panjr.springbootlibrary.service.MessagesService;
 import com.panjr.springbootlibrary.utils.ExtractJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("https://localhost:3000")
 @RestController
 @RequestMapping("/api/messages")
 public class MessagesController {
@@ -26,16 +27,16 @@ public class MessagesController {
         messagesService.postMessage(messageRequest, userEmail);
     }
 
-//    @PutMapping("/secure/admin/message")
-//    public void putMessage(@RequestHeader(value="Authorization") String token,
-//                           @RequestBody AdminQuestionRequest adminQuestionRequest) throws Exception {
-//        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
-//        String admin = ExtractJWT.payloadJWTExtraction(token, "\"userType\"");
-//        if (admin == null || !admin.equals("admin")) {
-//            throw new Exception("Administration page only.");
-//        }
-//        messagesService.putMessage(adminQuestionRequest, userEmail);
-//    }
+    @PutMapping("/secure/admin/message")
+    public void putMessage(@RequestHeader(value="Authorization") String token,
+                           @RequestBody AdminQuestionRequest adminQuestionRequest) throws Exception {
+        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
+        String admin = ExtractJWT.payloadJWTExtraction(token, "\"userType\"");
+        if (admin == null || !admin.equals("admin")) {
+            throw new Exception("Administration page only.");
+        }
+        messagesService.putMessage(adminQuestionRequest, userEmail);
+    }
 
 }
 

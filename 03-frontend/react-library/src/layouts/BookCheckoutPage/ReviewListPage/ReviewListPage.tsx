@@ -17,7 +17,7 @@ export const ReviewListPage =() => {
     const bookId =(window.location.pathname).split('/')[2];
     useEffect(() => {
         const fetchBookReviews = async () => {
-          const reviewUrl: string = `http://localhost:8080/api/reviews/search/findByBookId?bookId=${bookId}&page=${currentPage-1} &size=${reviewPerPage}`;
+          const reviewUrl: string = `${process.env.REACT_APP_API}/reviews/search/findByBookId?bookId=${bookId}&page=${currentPage-1} &size=${reviewPerPage}`;
           const responseReviews = await fetch(reviewUrl);
           if (!responseReviews.ok) {
             throw new Error("Something went wrong!");
